@@ -1,0 +1,32 @@
+import { NextResponse } from "next/server";
+import { writeFile } from "fs/promises";
+import prisma from "@/services/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+
+export async function PUT(req: Request) {
+    try {
+        const session = await getServerSession(authOptions);
+        if (!session?.user?.id) {
+            return NextResponse.json({ message: "Non authentifié" }, { status: 401 });
+        }
+        const fd = await req.formData();
+        const username = fd.get("username")?.toString();
+        const avatarFile = fd.get("avatar") as File | null;
+        let avatarUrl = undefined;
+        if (avatarFile && avatarFile.size > 0) {
+            avatarUrl = `/uploads/${Date.now()}-${avatarFile.name.replace(/\s+/g, "_")}`;
+            await writeFile(`public${avatarUrl}`, Buffer.from(await avatarFile.arrayBuffer()));
+        }
+        const updateData: any = {};
+        if (username) updateData.username = username;
+        if (avatarUrl) updateData.avatar = avatarUrl;
+        const user = await prisma.user.update({
+            where: { id: session.user.id },
+            data: updateData,
+        });
+        return NextResponse.json({ user }, { status: 200 });
+    } catch (error) {
+        return NextResponse.json({ message: "Erreur serveur", details: error instanceof Error ? error.message : error }, { status: 500 });
+    }
+}
