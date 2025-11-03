@@ -82,7 +82,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link href="/auth/register" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
-                  S'inscrire
+                  S&apos;inscrire
                 </Link>
               </li>
               <li>
@@ -114,7 +114,7 @@ const Footer = () => {
               </li>
               <li>
                 <a href="#" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
-                  Conditions d'utilisation
+                  Conditions d&apos;utilisation
                 </a>
               </li>
             </ul>

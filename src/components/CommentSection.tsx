@@ -76,7 +76,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onPublish, cu
       )}
   <div className="space-y-6 w-full">
         {comments.length === 0 && (
-          <div className="text-neutral-500 text-center">Aucun commentaire pour l'instant.</div>
+          <div className="text-neutral-500 text-center">Aucun commentaire pour l&apos;instant.</div>
         )}
         {comments.map(comment => (
           <div key={comment.id} className="flex items-start gap-4 p-4 rounded-xl">

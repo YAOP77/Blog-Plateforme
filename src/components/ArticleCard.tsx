@@ -4,6 +4,7 @@ import { truncateToWords } from "@/lib/utils";
 import Link from "next/link";
 import { useGetAllArticle } from "@/hook/useArticle";
 import { ArticleType } from "@/types";
+import Image from "next/image";
 
 const AtticleCard = ({ articles: propArticles, forceNoLoading = false, onDelete, showEditDelete }: {
     articles?: ArticleType[],
@@ -28,9 +29,11 @@ const AtticleCard = ({ articles: propArticles, forceNoLoading = false, onDelete,
                 return (
                     <div key={article.id} className="bg-white p-4 flex flex-col md:flex-row gap-3 max-w-6xl mb-8">
                         <div className="flex-shrink-0 md:max-w-7xl md:w-30 md:h-18">
-                            <img
+                            <Image
                                 src={article.user?.avatar || "/uploads/user-default.jpg"}
                                 alt="user"
+                                width={64}
+                                height={64}
                                 className="w-12 h-12 md:w-16 md:h-16 rounded-full object-cover"
                             />
                         </div>
@@ -57,7 +60,7 @@ const AtticleCard = ({ articles: propArticles, forceNoLoading = false, onDelete,
                                 </p>
                                 {article.image && (
                                     <div className="mb-2 border-r border-neutral-500 max-w-6xl mt-2">
-                                        <img src={article.image} alt="article" className="w-full h-[400px] object-cover" />
+                                        <Image src={article.image} alt="article" width={800} height={400} className="w-full h-[400px] object-cover" />
                                     </div>
                                 )}
                             </div>

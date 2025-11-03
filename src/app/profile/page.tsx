@@ -113,8 +113,9 @@ const ProfilePage = () => {
                                             const result = await res.json();
                                             if (!res.ok || result.error) throw new Error(result.error || "Erreur serveur");
                                             setArticles(prev => prev.filter(a => a.id !== id));
-                                        } catch (e: any) {
-                                            alert(e.message);
+                                        } catch (e: unknown) {
+                                            const message = e instanceof Error ? e.message : "Erreur inconnue";
+                                            alert(message);
                                         } finally {
                                             modal.close();
                                             modal.remove();
