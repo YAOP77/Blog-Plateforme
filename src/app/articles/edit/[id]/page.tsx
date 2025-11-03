@@ -26,8 +26,8 @@ const EditArticlePage = () => {
                 } else {
                     setError(data?.error || "Article introuvable");
                 }
-            } catch (e: any) {
-                setError(e.message);
+            } catch (e: unknown) {
+                setError(e instanceof Error ? e.message : "Erreur inconnue");
             } finally {
                 setLoading(false);
             }
@@ -50,8 +50,8 @@ const EditArticlePage = () => {
             const result = await res.json();
             if (!res.ok || result.error) throw new Error(result.error || "Erreur serveur");
             router.push("/profile");
-        } catch (e: any) {
-            setError(e.message);
+        } catch (e: unknown) {
+            setError(e instanceof Error ? e.message : "Erreur inconnue");
         } finally {
             setSaving(false);
         }
@@ -70,6 +70,7 @@ const EditArticlePage = () => {
             {/* Image à gauche sur mobile, à droite sur desktop */}
             <div className="w-full md:w-1/2 flex items-center justify-center p-8 order-1 md:order-2">
                 <div className="flex items-center justify-center w-full" style={{ perspective: "1000px" }}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                         src="/images/Blog-2.png"
                         alt="Blog"
@@ -97,7 +98,7 @@ const EditArticlePage = () => {
                             >
                                 <IoArrowBack />
                             </button>
-                            <h1 className="text-2xl md:text-4xl border-b border-neutral-400 mb-2">Modifier l'article</h1>
+                            <h1 className="text-2xl md:text-4xl border-b border-neutral-400 mb-2">Modifier l&apos;article</h1>
                         </div>
                         <input
                             type="text"

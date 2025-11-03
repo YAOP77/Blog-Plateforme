@@ -124,7 +124,7 @@ export default function Home() {
               </h2>
               <div className="space-y-4 text-base md:text-lg text-neutral-700 leading-relaxed">
                 <p>
-                  Cette plateforme de blog offre aux professionnels et aux startups une opportunité unique de s'exprimer librement et de partager leur expertise avec une communauté engagée.
+                  Cette plateforme de blog offre aux professionnels et aux startups une opportunité unique de s&apos;exprimer librement et de partager leur expertise avec une communauté engagée.
                 </p>
                 <p>
                   Que vous souhaitiez mettre en avant vos services, partager vos expériences professionnelles ou démontrer votre expertise dans votre domaine, notre plateforme vous donne les outils nécessaires pour construire votre présence en ligne et établir votre crédibilité.
@@ -175,7 +175,7 @@ export default function Home() {
                 Partagez Votre Expertise
               </h3>
               <p className="text-neutral-900 text-base md:text-lg leading-relaxed transition-colors duration-300 ease-in-out group-hover:text-white">
-                Montrez vos compétences et votre savoir-faire à travers des articles détaillés qui démontrent votre expertise dans votre domaine d'activité.
+                Montrez vos compétences et votre savoir-faire à travers des articles détaillés qui démontrent votre expertise dans votre domaine d&apos;activité.
               </p>
             </div>
 

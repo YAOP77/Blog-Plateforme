@@ -23,7 +23,7 @@ export async function POST(req: Request): Promise<Response> {
     const user = await createUser( username, email, hashedPassword );
 
     return success(user, 201);
-  } catch (error: unknown) {
+  } catch {
     return NextResponse.json({ message: "Erreur serveur" }, { status: 500 });
   }
 }

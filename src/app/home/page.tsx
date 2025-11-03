@@ -34,6 +34,7 @@ export default function Home() {
                   transition: "transform 400ms ease",
                 }}
               >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={src}
                   alt={`portrait ${i + 1}`}

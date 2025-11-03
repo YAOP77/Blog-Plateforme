@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -47,8 +47,8 @@ const ArticleDetailPage = () => {
                 },
                 ...prev
             ]);
-        } catch (e: any) {
-            alert(e.message);
+        } catch (e: unknown) {
+            alert(e instanceof Error ? e.message : "Erreur inconnue");
         }
     };
 
@@ -56,7 +56,7 @@ const ArticleDetailPage = () => {
     React.useEffect(() => {
         if (Array.isArray(article?.comment)) {
             setComments(
-                article.comment.map((c: any) => ({
+                article.comment.map((c: Comment) => ({
                     id: c.id,
                     description: c.description,
                     user: {
@@ -84,6 +84,7 @@ const ArticleDetailPage = () => {
                 <header className="flex items-center gap-4 mb-6">
                     <div className="flex justify-between w-300">
                         <div className="flex gap-4 items-center">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img
                                 src={article.user?.avatar || "/uploads/user-default.jpg"}
                                 alt={article.user?.username || "Utilisateur"}
@@ -143,8 +144,8 @@ const ArticleDetailPage = () => {
                         const result = await res.json();
                         if (!res.ok || result.error) throw new Error(result.error || "Erreur serveur");
                         setComments(prev => prev.filter(c => c.id !== id));
-                    } catch (e: any) {
-                        alert(e.message);
+                    } catch (e: unknown) {
+                        alert(e instanceof Error ? e.message : "Erreur inconnue");
                     }
                 }}
             />

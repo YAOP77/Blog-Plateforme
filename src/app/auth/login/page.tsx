@@ -114,6 +114,7 @@ const LoginPage = () => {
 
       <div>
         <div className="md:max-w-3xl max-w-7xl h-full">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
             className="object-cover md:max-w-3xl max-h-dvh w-7xl" 
             src="/images/pexels-tima-miroshnichenko-6170398.jpg"

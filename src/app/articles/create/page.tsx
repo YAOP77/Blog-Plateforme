@@ -64,7 +64,7 @@ const CreateArticlePage = () => {
                 router.push("/articles");
             }
             
-        } catch (error) {
+        } catch {
             setMessage({text: "Erreur réseau ou serveur", type: "error" });
         } finally {
             setLoading(false);
@@ -135,54 +135,54 @@ const CreateArticlePage = () => {
             {/* Formulaire à droite sur mobile, à gauche sur desktop */}
             <div className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-10 py-6 order-2 md:order-1">
                 <div className="w-full max-w-md p-4 md:p-6">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-full md:w-100 h-full">
-                        <div className="flex flex-col">
-                            <button
-                                type="button"
-                                onClick={() => router.push("/articles")}
-                                className="p-2 text-xl md:text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
-                                title="Retour aux articles"
-                            >
-                                <IoArrowBack />
-                            </button>
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-full md:w-100 h-full">
+                <div className="flex flex-col">
+                    <button
+                    type="button"
+                    onClick={() => router.push("/articles")}
+                    className="p-2 text-xl md:text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
+                    title="Retour aux articles"
+                    >
+                    <IoArrowBack />
+                    </button>
                             <h1 className="text-2xl md:text-4xl border-b border-neutral-400 mb-2">Créer un article</h1>
-                        </div>
-                        <input
-                            type="text"
-                            name="title"
-                            placeholder="Titre de l'article"
-                            value={title}
-                            onChange={e => setTitle(e.target.value)}
-                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 placeholder:text-sm"
-                        />
-                        <input
-                            type="file"
-                            name="image"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4"
-                        />
-                        <textarea
-                            name="description"
-                            placeholder="Description de l'article"
-                            value={description}
-                            onChange={e => setDescription(e.target.value)}
-                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 min-h-[100px] md:min-h-[120px] placeholder:text-sm"
-                        />
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="text-white bg-neutral-900 rounded-2xl p-2 text-sm md:text-base w-full mt-4 hover:bg-neutral-700 duration-300 cursor-pointer"
-                        >
-                            {loading ? "Chargement ..." : "Créer l'article"}
-                        </button>
-                        {message?.text && (
-                            <p className={ message.type === "error" ? "text-sm text-red-600 mt-2" : "text-sm text-green-600 mt-2"}>
-                                { message.text }
-                            </p>
-                        )}
-                    </form>
                 </div>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Titre de l'article"
+                    value={title}
+                    onChange={e => setTitle(e.target.value)}
+                    className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 placeholder:text-sm"
+                />
+                <input
+                    type="file"
+                    name="image"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                    className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4"
+                />
+                <textarea
+                    name="description"
+                    placeholder="Description de l'article"
+                    value={description}
+                    onChange={e => setDescription(e.target.value)}
+                    className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 min-h-[100px] md:min-h-[120px] placeholder:text-sm"
+                />
+                <button
+                    type="submit"
+                    disabled={loading}
+                            className="text-white bg-neutral-900 rounded-2xl p-2 text-sm md:text-base w-full mt-4 hover:bg-neutral-700 duration-300 cursor-pointer"
+                >
+                    {loading ? "Chargement ..." : "Créer l'article"}
+                </button>
+                {message?.text && (
+                    <p className={ message.type === "error" ? "text-sm text-red-600 mt-2" : "text-sm text-green-600 mt-2"}>
+                        { message.text }
+                    </p>
+                )}
+            </form>
+        </div>
             </div>
         </div>
     );

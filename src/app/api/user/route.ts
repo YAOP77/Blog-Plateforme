@@ -17,7 +17,7 @@ export async function GET(req: Request) {
         });
         if (!user) return NextResponse.json({ error: "Utilisateur introuvable" }, { status: 404 });
         return NextResponse.json({ data: user });
-    } catch (e) {
+    } catch {
         return NextResponse.json({ error: "Erreur serveur" }, { status: 500 });
     }
 }

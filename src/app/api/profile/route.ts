@@ -18,7 +18,7 @@ export async function PUT(req: Request) {
             avatarUrl = `/uploads/${Date.now()}-${avatarFile.name.replace(/\s+/g, "_")}`;
             await writeFile(`public${avatarUrl}`, Buffer.from(await avatarFile.arrayBuffer()));
         }
-        const updateData: any = {};
+        const updateData: { username?: string; avatar?: string } = {};
         if (username) updateData.username = username;
         if (avatarUrl) updateData.avatar = avatarUrl;
         const user = await prisma.user.update({

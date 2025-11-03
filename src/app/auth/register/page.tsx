@@ -93,7 +93,7 @@ const RegisterPage = () => {
                     <div>                    
                         <div>
                             <div>
-                                <p className="text-sm text-neutral-500">S'inscire avec un compte existant</p>
+                                <p className="text-sm text-neutral-500">S&apos;inscrire avec un compte existant</p>
                             </div>
                             <div className="text-sm mt-2 max-w-22 text-left px-1 py-1 border border-neutral-300 
                                 hover:border hover:border-neutral-400 duration-500 rounded-2xl">
@@ -153,7 +153,8 @@ const RegisterPage = () => {
             </div>
             <div>
                 <div className="md:max-w-3xl max-w-7xl h-full">
-                    <img className="object-cover md:max-w-3xl max-h-dvh w-7xl" src="/images/pexels-creationhill-1681010.jpg" />
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img className="object-cover md:max-w-3xl max-h-dvh w-7xl" src="/images/pexels-creationhill-1681010.jpg" alt="Background" />
                 </div>
             </div>
         </div>
