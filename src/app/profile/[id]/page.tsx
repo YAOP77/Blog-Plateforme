@@ -5,6 +5,8 @@ import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import ArticleCard from "@/components/ArticleCard";
 import Header from "@/components/Header";
+import { ArticleType } from "@/types";
+import Image from "next/image";
 
 interface User {
     id: string;
@@ -20,7 +22,7 @@ export default function ProfileIdPage() {
     const currentUserId = session?.user?.id;
     
     const [user, setUser] = useState<User | null>(null);
-    const [articles, setArticles] = useState<any[]>([]);
+    const [articles, setArticles] = useState<ArticleType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -38,7 +40,7 @@ export default function ProfileIdPage() {
                 
                 const articlesData = await articlesRes.json();
                 // Filtrer les articles pour ne garder que ceux de l'utilisateur concerné
-                const filteredArticles = (articlesData?.data ?? []).filter((article: any) => article.userId === userId);
+                const filteredArticles = (articlesData?.data ?? []).filter((article: ArticleType) => article.userId === userId);
                 setArticles(filteredArticles);
 
                 if (filteredArticles.length > 0) {
@@ -95,9 +97,11 @@ export default function ProfileIdPage() {
             <Header />
             <div className="max-w-7xl mx-auto py-6 md:py-10 px-4 md:px-0 font-serif mt-10">
                 <div className="flex flex-col md:flex-row items-center md:items-center md:justify-between mb-6 md:mb-10 gap-4">
-                    <img 
+                    <Image 
                         src={user.avatar || "/uploads/user-default.jpg"} 
-                        alt="avatar" 
+                        alt="avatar"
+                        width={168}
+                        height={168}
                         className="w-32 h-32 md:w-42 md:h-42 rounded-full border-2 border-neutral-400 object-cover flex-shrink-0" 
                     />
                     <div className="text-center md:text-right min-w-[120px] md:mr-20 mt-2 md:mt-4">

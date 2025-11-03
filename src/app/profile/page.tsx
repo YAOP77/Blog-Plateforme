@@ -5,11 +5,12 @@ import ArticleCard from "@/components/ArticleCard";
 import Header from "@/components/Header";
 import Link from "next/link";
 import Image from "next/image";
+import { ArticleType } from "@/types";
 
 const ProfilePage = () => {
     const { data: session, status } = useSession();
     const user = session?.user ?? null;
-    const [articles, setArticles] = useState<any[]>([]);
+    const [articles, setArticles] = useState<ArticleType[]>([]);
     const [articlesLoading, setArticlesLoading] = useState(true);
 
     useEffect(() => {
@@ -21,7 +22,7 @@ const ProfilePage = () => {
                     const articlesRes = await fetch(`/api/articles?userId=${user.id}`);
                     const articlesData = await articlesRes.json();
                     // Filtrer les articles pour ne garder que ceux de l'utilisateur connecté
-                    const filteredArticles = (articlesData?.data ?? []).filter((article: any) => article.userId === user.id);
+                    const filteredArticles = (articlesData?.data ?? []).filter((article: ArticleType) => article.userId === user.id);
                     setArticles(filteredArticles);
                 }
             } catch {
