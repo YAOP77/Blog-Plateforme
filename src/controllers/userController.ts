@@ -1,4 +1,3 @@
-import { hash } from "bcrypt";
 import { success, failure } from "@/lib/apiResponse";
 import prisma from "../services/prisma";
 
@@ -7,8 +6,7 @@ const defaultAvatar = process.env.USER_DEFAULT ?? "/uploads/user-default.jpg";
 export async function createUser(
   username: string, 
   email: string, 
-  password: string,
-  avatar: string | null
+  password: string
 ): Promise<Response> {
   try {
   console.log('Mot de passe reçu à l\'inscription:', password);

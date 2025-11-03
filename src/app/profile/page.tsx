@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import ArticleCard from "@/components/ArticleCard";
 import Header from "@/components/Header";
+import Link from "next/link";
+import Image from "next/image";
 
 const ProfilePage = () => {
     const { data: session, status } = useSession();
@@ -61,14 +63,14 @@ const ProfilePage = () => {
             <Header />
             <div className="max-w-7xl mx-auto py-6 md:py-10 px-4 md:px-0 font-serif mt-10">
                 <div className="flex flex-col md:flex-row items-center md:items-center md:justify-between mb-6 md:mb-10 gap-4">
-                    <img src={user.avatar || "/uploads/user-default.jpg"} alt="avatar" className="w-32 h-32 md:w-42 md:h-42 rounded-full border-2 border-neutral-400 object-cover flex-shrink-0" />
+                    <Image src={user.avatar || "/uploads/user-default.jpg"} alt="avatar" width={168} height={168} className="w-32 h-32 md:w-42 md:h-42 rounded-full border-2 border-neutral-400 object-cover flex-shrink-0" />
                     <div className="text-center md:text-right min-w-[120px] md:mr-20 mt-2 md:mt-4">
                         <div className="mb-4 md:mb-6">
                             <h1 className="text-3xl md:text-6xl font-extrabold text-neutral-900 mb-2">{user.username || user.email}</h1>
                             <span>
-                                <a href="/profile/edit" className="underline hover:text-neutral-500 duration-1000 cursor-pointer text-sm md:text-base">
+                                <Link href="/profile/edit" className="underline hover:text-neutral-500 duration-1000 cursor-pointer text-sm md:text-base">
                                     Modifier mon profil
-                                </a>
+                                </Link>
                             </span>
                         </div>
                         <span className="block text-sm md:text-md text-neutral-700">Articles publiés</span>

@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { signOut, useSession } from "next-auth/react";
 import { FaPlus } from "react-icons/fa6";
 import { HiMenu, HiX } from "react-icons/hi";
+import Link from "next/link";
+import Image from "next/image";
 // import { CiLogout } from "react-icons/ci";
 
 const Header = () => {
@@ -23,34 +25,34 @@ const Header = () => {
         <header className="bg-white fixed left-0 top-0 right-0 w-full border-b border-neutral-200 backdrop-blur-md z-50 overflow-x-hidden">
             <nav className="flex justify-between items-center px-4 py-3 max-w-full">
                 <h1 className="text-sm md:text-2xl font-bold whitespace-nowrap flex-shrink-0">
-                    <a href="/">Blog-Info</a>
+                    <Link href="/">Blog-Info</Link>
                 </h1>
                 
                 <div className="flex items-center gap-1 md:gap-4 flex-shrink-0">
                     {/* Menu Desktop */}
                     <ul className="hidden md:flex gap-3 md:gap-6 text-xs md:text-sm items-center">
                     <li className="font-medium cursor-pointer">
-                        <a href="/">Accueil</a>
+                        <Link href="/">Accueil</Link>
                     </li>
                     <li className="font-medium cursor-pointer">
-                        <a href="/articles">Blog</a>
+                        <Link href="/articles">Blog</Link>
                     </li>
                     {!loading && !user && (
                         <>
                             <li className="cursor-pointer whitespace-nowrap">
-                                <a href="/auth/login">Connexion</a>
+                                <Link href="/auth/login">Connexion</Link>
                             </li>
                             <li className="cursor-pointer whitespace-nowrap">
-                                <a href="/auth/register">Inscription</a>
+                                <Link href="/auth/register">Inscription</Link>
                             </li>
                         </>
                     )}
                     {!loading && user && (
                         <>
                             <li className="cursor-pointer flex gap-2 items-center">
-                                <a href="/profile" title="Mon profil">
-                                    <img src={user.avatar || "/uploads/user-default.jpg"} alt="profile" className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-neutral-300" />
-                                </a>
+                                <Link href="/profile" title="Mon profil">
+                                    <Image src={user.avatar || "/uploads/user-default.jpg"} alt="profile" width={32} height={32} className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-neutral-300" />
+                                </Link>
                             </li>
                             <li>
                                 <button
@@ -64,12 +66,12 @@ const Header = () => {
                         </>
                     )}
                     <li className="cursor-pointer flex items-center" title="Publié un article">
-                        <a
+                        <Link
                             href={user ? "/articles/create" : "/auth/login"}
                             className="text-center flex items-center border p-1.5 md:p-2 bg-neutral-900 text-white hover:rounded-none rounded-2xl duration-300"
                         >
                             <span><FaPlus /></span>
-                        </a>
+                        </Link>
                     </li>
                     </ul>
 
@@ -111,35 +113,35 @@ const Header = () => {
                 {/* Contenu du menu */}
                 <ul className="flex flex-col gap-2 p-4 overflow-y-auto">
                     <li className="pb-3">
-                        <a 
+                        <Link 
                             href="/" 
                             onClick={toggleMenu}
                             className={`block py-2 font-medium ${pathname === "/articles" ? "border-l-2 border-neutral-800 pl-2" : ""}`}
                         >
                             Accueil
-                        </a>
+                        </Link>
                     </li>
                     <li className="pb-3">
-                        <a 
+                        <Link 
                             href="/articles" 
                             onClick={toggleMenu}
                             className={`block py-2 font-medium ${pathname === "/articles" ? "border-l-2 border-neutral-800 pl-2" : ""}`}
                         >
                             Blog
-                        </a>
+                        </Link>
                     </li>
 
                     {!loading && !user && (
                         <>
                             <li className="pb-3">
-                                <a href="/auth/login" onClick={toggleMenu} className="block py-2 text-blue-600 font-medium">
+                                <Link href="/auth/login" onClick={toggleMenu} className="block py-2 text-blue-600 font-medium">
                                     Se connecter
-                                </a>
+                                </Link>
                             </li>
                             <li className="pb-3">
-                                <a href="/auth/register" onClick={toggleMenu} className="block py-2 text-blue-600 font-medium">
-                                    S'inscrire
-                                </a>
+                                <Link href="/auth/register" onClick={toggleMenu} className="block py-2 text-blue-600 font-medium">
+                                    S&apos;inscrire
+                                </Link>
                             </li>
                         </>
                     )}
@@ -147,10 +149,10 @@ const Header = () => {
                     {!loading && user && (
                         <>
                             <li className="pb-3">
-                                <a href="/profile" onClick={toggleMenu} className="flex items-center gap-2 py-2">
-                                    <img src={user.avatar || "/uploads/user-default.jpg"} alt="profile" className="w-10 h-10 rounded-full border border-neutral-300" />
+                                <Link href="/profile" onClick={toggleMenu} className="flex items-center gap-2 py-2">
+                                    <Image src={user.avatar || "/uploads/user-default.jpg"} alt="profile" width={40} height={40} className="w-10 h-10 rounded-full border border-neutral-300" />
                                     <span className="font-medium">Mon profil</span>
-                                </a>
+                                </Link>
                             </li>
                             <li>
                                 <button
@@ -167,14 +169,14 @@ const Header = () => {
                     )}
 
                     <li className="mt-4">
-                        <a
+                        <Link
                             href={user ? "/articles/create" : "/auth/login"}
                             onClick={toggleMenu}
                             className="flex items-center justify-center gap-2 border p-3 bg-neutral-900 text-white rounded-2xl duration-300"
                         >
                             <span><FaPlus /></span>
                             <span>Publier un article</span>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
             </div>

@@ -19,9 +19,8 @@ export async function POST(req: Request): Promise<Response> {
     }
 
     const hashedPassword = await hash(password, 10);
-    const defaultAvatar = process.env.USER_DEFAULT ?? "/uploads/user-default.jpg";
 
-    const user = await createUser( username, email, hashedPassword, defaultAvatar );
+    const user = await createUser( username, email, hashedPassword );
 
     return success(user, 201);
   } catch (error: unknown) {
