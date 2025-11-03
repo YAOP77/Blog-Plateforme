@@ -7,7 +7,7 @@ const BlogPage = () => {
             <Header />
             <main className="mt-25 font-serif">
                 <div>
-                    <h1 className="text-6xl font-bold px-10 p-2">Article</h1>
+                    <h1 className="text-6xl font-bold px-10 p-2">Articles</h1>
                 </div>
                 <div className="p-6">
                     <AtticleCard/>

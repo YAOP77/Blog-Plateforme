@@ -20,7 +20,7 @@ const RegisterPage = () => {
     });
 
     // const [error, setError] = useState<string | null>(null);
-    const [message, setMessage] = useState({ text: "", type: "" });
+    const [message, setMessage] = useState<{ text: string, type: "error" | "success"} | null>(null);
     const [loading, setLoading] = useState(false);
     const router = useRouter();
 
@@ -76,16 +76,15 @@ const RegisterPage = () => {
 
     return (
         <div className="flex flex-wrap-reverse justify-center gap-10 items-center">
-        {/* <div className="flex flex-wrap-reverse justify-center gap-10 items-center px-4 md:px-10 py-6"> */}
-            <div className="p-17 max-h-250">
-                <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-100 h-full">
+            <div className="p-4 md:p-17 max-h-250 max-w-full overflow-hidden">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-full md:w-100 h-full">
                     <div className="flex flex-col">
                         <button
                             type="button"
-                            onClick={() => router.back()}
+                            onClick={() => router.push("/articles")}
                             className="p-2 text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer
                             mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
-                            title="Cliquer pour revenir en arrière"
+                            title="Retour aux articles"
                             >
                                 <IoArrowBack />
                         </button>

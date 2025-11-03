@@ -14,7 +14,8 @@ export async function GET(req: Request): Promise<Response> {
         // Pagination
         const page = parseInt(searchParams.get("page") || "1", 10);
         const limit = parseInt(searchParams.get("limit") || "10", 10);
-        const articles = await getAllArticles({ page, limit });
+        const userId = searchParams.get("userId");
+        const articles = await getAllArticles({ page, limit, userId: userId || undefined });
         return success({ data: articles }, 200);
     } catch (error) {
         const message = error instanceof Error ? error.message : "Erreur inconnu";

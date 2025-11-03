@@ -1,17 +1,31 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
+import { useSession } from "next-auth/react";
+import { IoArrowBack } from "react-icons/io5";
 
 const EditProfilePage = () => {
     const router = useRouter();
+    const { data: session, status } = useSession();
     const [username, setUsername] = useState("");
     const [avatar, setAvatar] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ text: string, type: "error" | "success"} | null >(null);
 
-    // Récupère les infos actuelles de l'utilisateur (optionnel, à améliorer si besoin)
-    // ...
+    // Pré-remplir le formulaire avec les données actuelles de l'utilisateur
+    useEffect(() => {
+        if (status === "authenticated" && session?.user?.username) {
+            setUsername(session.user.username);
+        }
+    }, [session, status]);
+
+    // Rediriger si non authentifié
+    if (status === "unauthenticated") {
+        if (typeof window !== "undefined") {
+            router.replace("/auth/login");
+        }
+        return null;
+    }
 
     const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -34,7 +48,11 @@ const EditProfilePage = () => {
                 setMessage(result.message || "Erreur lors de la modification");
             } else {
                 setMessage({ text: "Profil modifié avec succès !", type: "success" });
-                setTimeout(() => router.push("/profile"), 1200);
+                // Forcer un rechargement complet pour rafraîchir la session NextAuth depuis le serveur
+                // Le callback session dans auth.ts récupérera les nouvelles données de la base de données
+                setTimeout(() => {
+                    window.location.href = "/profile";
+                }, 1000);
             }
         } catch (error) {
             setMessage({text: "Erreur réseau ou serveur", type: "error" });
@@ -44,21 +62,38 @@ const EditProfilePage = () => {
     };
 
     return (
-        <>
-            <Header />
-            <div className="flex flex-col items-center justify-center w-full min-h-screen px-4 md:px-10 py-6 gap-10">
-                <div className="w-full md:w-1/2 max-w-md p-6 bg-white rounded-xl shadow">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-100 h-full">
+        <div className="flex flex-col md:flex-row w-full min-h-screen gap-4 md:gap-0">
+            {/* Image à gauche sur mobile, à droite sur desktop */}
+            <div className="w-full md:w-1/2 flex items-center justify-center p-8 order-1 md:order-2">
+                <div className="flex items-center justify-center w-full" style={{ perspective: "1000px" }}>
+                    <img
+                        src="/images/Blog-Ex.png"
+                        alt="Blog"
+                        className="w-full h-auto object-cover rounded-xl border border-neutral-200"
+                        style={{
+                            transform: "rotateX(50deg) rotateZ(45deg) scaleY(0.75) scale(1.2)",
+                            transformStyle: "preserve-3d",
+                            boxShadow: "0 25px 50px -12px rgba(182, 182, 182, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.1)",
+                            willChange: 'transform'
+                        }}
+                    />
+                </div>
+            </div>
+
+            {/* Formulaire à droite sur mobile, à gauche sur desktop */}
+            <div className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-10 py-6 order-2 md:order-1">
+                <div className="w-full max-w-md p-4 md:p-6">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-full md:w-100 h-full">
                         <div className="flex flex-col">
                             <button
                                 type="button"
-                                onClick={() => router.back()}
-                                className="p-2 text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
-                                title="Retour"
+                                onClick={() => router.push("/profile")}
+                                className="p-2 text-xl md:text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
+                                title="Retour au profil"
                             >
-                                &#8592;
+                                <IoArrowBack />
                             </button>
-                            <h1 className="text-4xl font-serif border-b border-neutral-400 mb-2">Modifier mon profil</h1>
+                            <h1 className="text-2xl md:text-4xl border-b border-neutral-400 mb-2">Modifier mon profil</h1>
                         </div>
                         <input
                             type="text"
@@ -66,7 +101,7 @@ const EditProfilePage = () => {
                             placeholder="Nom d'utilisateur"
                             value={username}
                             onChange={e => setUsername(e.target.value)}
-                            className="border border-neutral-400 p-2 w-full mt-4 placeholder:text-sm"
+                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 placeholder:text-sm"
                             required
                         />
                         <input
@@ -74,12 +109,12 @@ const EditProfilePage = () => {
                             name="avatar"
                             accept="image/*"
                             onChange={handleAvatarChange}
-                            className="border border-neutral-400 p-2 w-full mt-4"
+                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4"
                         />
                         <button
                             type="submit"
                             disabled={loading}
-                            className="text-white bg-blue-600 rounded-2xl p-2 w-full mt-4 hover:bg-blue-800 duration-1000 cursor-pointer"
+                            className="text-white bg-neutral-900 rounded-2xl p-2 text-sm md:text-base w-full mt-4 hover:bg-neutral-700 duration-300 cursor-pointer"
                         >
                             {loading ? "Chargement ..." : "Enregistrer"}
                         </button>
@@ -91,7 +126,7 @@ const EditProfilePage = () => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

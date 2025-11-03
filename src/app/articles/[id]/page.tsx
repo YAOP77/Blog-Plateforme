@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { getArticleId } from "@/hook/useArticle";
 import Image from "next/image";
 import { IoArrowBack } from "react-icons/io5";
@@ -16,23 +17,9 @@ const ArticleDetailPage = () => {
     // Gestion dynamique des commentaires (hook AVANT tout return)
     const [comments, setComments] = React.useState<Comment[]>([]);
 
-    // Utilisateur connecté (récupéré via l'API session)
-    const [currentUser, setCurrentUser] = useState<any>(null);
-    useEffect(() => {
-        (async () => {
-            try {
-                const res = await fetch("/api/auth/session");
-                if (res.headers.get("content-type")?.includes("application/json")) {
-                    const session = await res.json();
-                    setCurrentUser(session?.user ?? null);
-                } else {
-                    setCurrentUser(null);
-                }
-            } catch {
-                setCurrentUser(null);
-            }
-        })();
-    }, []);
+    // Utilisateur connecté (via useSession)
+    const { data: session } = useSession();
+    const currentUser = session?.user ?? null;
 
     // Publication du commentaire via l'API et mise à jour instantanée
     const handlePublish = async (text: string) => {
@@ -93,12 +80,13 @@ const ArticleDetailPage = () => {
                 <header className="flex items-center gap-4 mb-6">
                     <div className="flex justify-between w-300">
                         <div className="flex gap-4 items-center">
-                            <Image
+                            <img
                                 src={article.user?.avatar || "/uploads/user-default.jpg"}
                                 alt={article.user?.username || "Utilisateur"}
-                                width={56}
-                                height={56}
-                                className="rounded-full"
+                                className="w-14 h-14 rounded-full object-cover"
+                                onError={(e) => {
+                                    (e.target as HTMLImageElement).src = "/uploads/user-default.jpg";
+                                }}
                             />
                             <div>
                                 <a

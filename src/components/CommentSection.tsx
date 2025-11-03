@@ -64,7 +64,7 @@ const CommentSection: React.FC<CommentSectionProps> = ({ comments, onPublish, cu
               <button
                 onClick={handlePublish}
                 disabled={loading || !text.trim()}
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-full shadow-md transition-all duration-150 disabled:opacity-50"
+                className="bg-black hover:bg-neutral-800 text-white font-bold py-2 px-6 rounded-none transition-all duration-150 disabled:opacity-50"
               >
                 {loading ? "Publication..." : "Publier"}
               </button>

@@ -2,7 +2,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import Header from "@/components/Header";
 import { ArticleType } from "@/types";
 import { IoArrowBack } from "react-icons/io5";
 
@@ -67,21 +66,38 @@ const EditArticlePage = () => {
     if (!article) return null;
 
     return (
-        <>
-            <Header />
-            <div className="flex flex-col items-center justify-center w-full min-h-screen px-4 md:px-10 py-6 gap-10">
-                <div className="w-full md:w-1/2 max-w-md p-6 bg-white rounded-xl shadow">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-100 h-full">
+        <div className="flex flex-col md:flex-row w-full min-h-screen gap-4 md:gap-0">
+            {/* Image à gauche sur mobile, à droite sur desktop */}
+            <div className="w-full md:w-1/2 flex items-center justify-center p-8 order-1 md:order-2">
+                <div className="flex items-center justify-center w-full" style={{ perspective: "1000px" }}>
+                    <img
+                        src="/images/Blog-2.png"
+                        alt="Blog"
+                        className="w-full h-auto object-cover rounded-xl border border-neutral-200"
+                        style={{
+                            transform: "rotateX(50deg) rotateZ(45deg) scale(1.2)",
+                            transformStyle: "preserve-3d",
+                            boxShadow: "0 25px 50px -12px rgba(182, 182, 182, 0.5), 0 0 0 4px rgba(255, 255, 255, 0.1)",
+                            willChange: 'transform'
+                        }}
+                    />
+                </div>
+            </div>
+
+            {/* Formulaire à droite sur mobile, à gauche sur desktop */}
+            <div className="w-full md:w-1/2 flex items-center justify-center px-4 md:px-10 py-6 order-2 md:order-1">
+                <div className="w-full max-w-md p-4 md:p-6">
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-3xl w-full md:w-100 h-full">
                         <div className="flex flex-col">
                             <button
                                 type="button"
-                                onClick={() => router.back()}
-                                className="p-2 text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
-                                title="Retour"
+                                onClick={() => router.push("/articles")}
+                                className="p-2 text-xl md:text-2xl text-neutral-400 hover:underline duration-700 cursor-pointer mb-2 w-fit rounded-full border border-neutral-300 hover:text-neutral-600 hover:border-neutral-400"
+                                title="Retour aux articles"
                             >
                                 <IoArrowBack />
                             </button>
-                            <h1 className="text-4xl font-serif border-b border-neutral-400 mb-2">Modifier l'article</h1>
+                            <h1 className="text-2xl md:text-4xl border-b border-neutral-400 mb-2">Modifier l'article</h1>
                         </div>
                         <input
                             type="text"
@@ -89,7 +105,7 @@ const EditArticlePage = () => {
                             placeholder="Titre de l'article"
                             value={form.title}
                             onChange={handleChange}
-                            className="border border-neutral-400 p-2 w-full mt-4 placeholder:text-sm"
+                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 placeholder:text-sm"
                             required
                         />
                         <textarea
@@ -97,13 +113,13 @@ const EditArticlePage = () => {
                             placeholder="Description de l'article"
                             value={form.description}
                             onChange={handleChange}
-                            className="border border-neutral-400 p-2 w-full mt-4 min-h-[120px] placeholder:text-sm"
+                            className="border border-neutral-400 p-2 text-sm md:text-base w-full mt-4 min-h-[100px] md:min-h-[120px] placeholder:text-sm"
                             required
                         />
                         <button
                             type="submit"
                             disabled={saving}
-                            className="text-white bg-blue-600 rounded-2xl p-2 w-full mt-4 hover:bg-blue-800 duration-1000 cursor-pointer"
+                            className="text-white bg-neutral-900 rounded-2xl p-2 text-sm md:text-base w-full mt-4 hover:bg-neutral-700 duration-300 cursor-pointer"
                         >
                             {saving ? "Enregistrement..." : "Enregistrer"}
                         </button>
@@ -113,7 +129,7 @@ const EditArticlePage = () => {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 };
 

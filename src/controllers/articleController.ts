@@ -6,11 +6,14 @@ import { getServerSession } from "next-auth";
 import z from "zod";
 
 // Lire La Liste Des Articles
-export async function getAllArticles({ page = 1, limit = 10 }: { page?: number; limit?: number } = {}): Promise<Article[] | Response> {
+export async function getAllArticles({ page = 1, limit = 10, userId }: { page?: number; limit?: number; userId?: string } = {}): Promise<Article[] | Response> {
     try {
         const skip = (page - 1) * limit;
         const articles = await prisma.article.findMany({
-            where: { deleteAt: null },
+            where: { 
+                deleteAt: null,
+                ...(userId && { userId })
+            },
             include: {
                 user: true,
                 comment: {
@@ -38,10 +41,10 @@ export async function getArticlesById(id: string): Promise<Response> {
         const article = await prisma.article.findFirst({
             where: { id, deleteAt: null },
             include: {
-                user: { select: { id: true, username: true, email: true } },
+                user: { select: { id: true, username: true, email: true, avatar: true } },
                 comment: {
                     where: { deleteAt: null },
-                    include: { user: { select: { id: true, username: true } } }
+                    include: { user: { select: { id: true, username: true, avatar: true } } }
                 },
             }
         });
