@@ -5,7 +5,7 @@ import { failure } from "@/lib/apiResponse";
 import { ArticleType } from "@/types";
 
 // Fonction hook pour recupérer tous les articles
-export function getAllArticle() {
+export function useGetAllArticle() {
     const { isLoading, data, error } = useSWR<ArticleType[]>("/api/articles", getRequest);
     return {
         articles: data ?? [],
@@ -15,7 +15,7 @@ export function getAllArticle() {
 }
 
 // Fonction hook pour recupérer un article via son ID 
-export function getArticleId(id: string) {
+export function useGetArticleId(id: string) {
     const { isLoading, data, error } = useSWR<ArticleType>( id ? `/api/articles/${id}` : null, getRequest);
     return {
         article: data ?? null,

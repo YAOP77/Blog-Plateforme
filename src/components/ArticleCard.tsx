@@ -2,7 +2,7 @@
 
 import { truncateToWords } from "@/lib/utils";
 import Link from "next/link";
-import { getAllArticle } from "@/hook/useArticle";
+import { useGetAllArticle } from "@/hook/useArticle";
 import { ArticleType } from "@/types";
 
 const AtticleCard = ({ articles: propArticles, forceNoLoading = false, onDelete, showEditDelete }: {
@@ -11,7 +11,7 @@ const AtticleCard = ({ articles: propArticles, forceNoLoading = false, onDelete,
     onDelete?: (id: string) => void,
     showEditDelete?: (article: ArticleType) => boolean
 }) => {
-    const { articles: fetchedArticles, loading, error } = getAllArticle();
+    const { articles: fetchedArticles, loading, error } = useGetAllArticle();
     const articles = propArticles ?? fetchedArticles;
 
     if (!forceNoLoading && loading) return (

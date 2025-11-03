@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useParams } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { getArticleId } from "@/hook/useArticle";
+import { useGetArticleId } from "@/hook/useArticle";
 import Image from "next/image";
 import { IoArrowBack } from "react-icons/io5";
 import CommentSection, { Comment } from "@/components/CommentSection";
@@ -11,7 +11,7 @@ import CommentSection, { Comment } from "@/components/CommentSection";
 const ArticleDetailPage = () => {
     const params = useParams();
     const id = params?.["id"] as string;
-    const { article, loading, error } = getArticleId(id);
+    const { article, loading, error } = useGetArticleId(id);
     const router = useRouter();
 
     // Gestion dynamique des commentaires (hook AVANT tout return)
