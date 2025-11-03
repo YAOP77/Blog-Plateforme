@@ -24,7 +24,8 @@ export async function DELETE(request: Request) {
     }
     await prisma.comment.delete({ where: { id } });
     return NextResponse.json({ success: true }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ error: "Erreur serveur", details: error?.message }, { status: 500 });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : "Erreur inconnue";
+    return NextResponse.json({ error: "Erreur serveur", details: message }, { status: 500 });
   }
 }

@@ -6,24 +6,26 @@ export type UserSafe = {
 }
 
 export type ArticleType = {
-    id: number;
+    id: string;
     title: string;
     image: string | null;
     description: string;
     comment: CommentsType;
-    userId: UserSafe;
+    userId: string;
     user?: UserSafe | null;
-    createAt: string;
+    createdAt: string;
+    createAt?: string | null;
     deleteAt?: string | null;
 }
 
 export type CommentsType = {
-    id: number;
+    id: string;
     description: string;
     userId: string;
     user?: UserSafe | null;
     articleId: string;
     article?: ArticleType | null;
-    createAt: string;
+    createdAt: string;
+    createAt?: string | null;
     deleteAt?: string | null;
 }

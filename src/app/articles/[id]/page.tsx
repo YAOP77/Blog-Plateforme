@@ -19,7 +19,11 @@ const ArticleDetailPage = () => {
 
     // Utilisateur connecté (via useSession)
     const { data: session } = useSession();
-    const currentUser = session?.user ?? null;
+    const currentUser = session?.user ? {
+        username: session.user.username || "",
+        avatar: session.user.avatar || undefined,
+        id: session.user.id
+    } : undefined;
 
     // Publication du commentaire via l'API et mise à jour instantanée
     const handlePublish = async (text: string) => {
@@ -96,7 +100,7 @@ const ArticleDetailPage = () => {
                                 >
                                     {article.user?.username || "Utilisateur"}
                                 </a>
-                                <div className="text-sm text-neutral-500 mt-1">Publié le {new Date(article.createAt ?? article.createdAt).toLocaleDateString()}</div>
+                                <div className="text-sm text-neutral-500 mt-1">Publié le {new Date(article.createdAt).toLocaleDateString()}</div>
                             </div>
                         </div>
                         <div>

@@ -17,7 +17,7 @@ export async function GET(req: Request): Promise<Response> {
         const userId = searchParams.get("userId");
         const articles = await getAllArticles({ page, limit, userId: userId || undefined });
         return success({ data: articles }, 200);
-    } catch (error) {
+    } catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Erreur inconnu";
         return failure("Erreur serveur", 500, message);
     }

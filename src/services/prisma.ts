@@ -1,4 +1,4 @@
-import { PrismaClient } from "@/generated/prisma";
+import { PrismaClient } from "@prisma/client";
 
 // typage de global pour attacher une instance PrismaClient et éviter les multiples connexion
 const globalForPrisma = global as unknown as { prisma: PrismaClient };

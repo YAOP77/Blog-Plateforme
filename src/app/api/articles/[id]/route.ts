@@ -2,9 +2,9 @@ import { success, failure } from "@/lib/apiResponse";
 import { getArticlesById, updateArticle, deteleArticle } from "@/controllers/articleController";
 import { writeFile } from "fs/promises";
 
-export async function GET(request: Request, { params }: { params: { id: string }}): Promise<Response> {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }): Promise<Response> {
     try {
-        const id = params.id;
+        const { id } = await params;
 
         if(!id || typeof id !== "string") return failure("ID invalide", 400);
 
@@ -16,7 +16,7 @@ export async function GET(request: Request, { params }: { params: { id: string }
     }
 }
 
-export async function PATCH(req: Request, { params }: { params: { id: string } }): Promise<Response> {
+export async function PATCH(req: Request, { params }: { params: Promise<{ id: string }> }): Promise<Response> {
     try {
         const fd = await req.formData();
         const title = fd.get("title")?.toString();
@@ -32,7 +32,7 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
         if(imageUrl && image)
             await writeFile(`public${imageUrl}`, Buffer.from(await image.arrayBuffer()))
             
-        const id = params.id;
+        const { id } = await params;
         if(!id) return failure("ID manquant", 400);
 
         const edit = await updateArticle(id, {
@@ -48,9 +48,9 @@ export async function PATCH(req: Request, { params }: { params: { id: string } }
     }
 }
 
-export async function DELETE({ params }: { params: { id: string } }): Promise<Response> {
+export async function DELETE(request: Request, { params }: { params: Promise<{ id: string }> }): Promise<Response> {
     try {
-        const id = params.id;
+        const { id } = await params;
         if(!id) return failure("ID manquant", 400);
 
         const removeArticle = await deteleArticle(id);

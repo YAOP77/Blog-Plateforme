@@ -26,7 +26,8 @@ export async function PUT(req: Request) {
             data: updateData,
         });
         return NextResponse.json({ user }, { status: 200 });
-    } catch (error) {
-        return NextResponse.json({ message: "Erreur serveur", details: error instanceof Error ? error.message : error }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Erreur inconnue";
+        return NextResponse.json({ message: "Erreur serveur", details: message }, { status: 500 });
     }
 }

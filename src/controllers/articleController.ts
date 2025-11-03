@@ -1,4 +1,4 @@
-import { Article } from "@/generated/prisma";
+import { Article } from "@prisma/client";
 import { success, failure } from "@/lib/apiResponse";
 import { authOptions } from "@/lib/auth";
 import prisma from "@/services/prisma";
