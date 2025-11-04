@@ -1,7 +1,7 @@
 import { getAllArticles, deteleArticle, updateArticle, getArticlesById } from "@/controllers/articleController";
 import { createArticle } from "@/controllers/articleController";
 import { success, failure } from "@/lib/apiResponse";
-import { put } from "@vercel/blob";
+import { v2 as cloudinary } from "cloudinary";
 
 // // Lire La Liste Des Articles
 export async function GET(req: Request): Promise<Response> {
@@ -39,6 +39,13 @@ export async function PUT(req: Request): Promise<Response> {
 }
 
 
+// Configuration Cloudinary
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
 // // Créer Un Article
 export async function POST(req: Request): Promise<Response> {
     try {
@@ -66,20 +73,34 @@ export async function POST(req: Request): Promise<Response> {
 
         let imageUrl: string | null = null;
 
-        // Upload vers Vercel Blob si une image est fournie
+        // Upload vers Cloudinary si une image est fournie
         if (image && image.size > 0) {
-            console.log("📤 Upload image vers Vercel Blob...");
+            console.log("📤 Upload image vers Cloudinary...");
             try {
-                const blob = await put(image.name, image, {
-                    access: 'public',
-                    addRandomSuffix: true,
+                // Convertir le File en Buffer
+                const bytes = await image.arrayBuffer();
+                const buffer = Buffer.from(bytes);
+
+                // Upload vers Cloudinary
+                const result = await new Promise<{secure_url: string}>((resolve, reject) => {
+                    cloudinary.uploader.upload_stream(
+                        {
+                            folder: "blog-articles",
+                            resource_type: "image",
+                        },
+                        (error, result) => {
+                            if (error) reject(error);
+                            else resolve(result as {secure_url: string});
+                        }
+                    ).end(buffer);
                 });
-                imageUrl = blob.url;
+
+                imageUrl = result.secure_url;
                 console.log("✅ Image uploadée:", imageUrl);
-            } catch (blobError) {
-                console.error("❌ Erreur upload Blob:", blobError);
-                const blobMessage = blobError instanceof Error ? blobError.message : "Erreur upload";
-                return failure("Erreur lors de l'upload de l'image", 500, blobMessage);
+            } catch (cloudinaryError) {
+                console.error("❌ Erreur upload Cloudinary:", cloudinaryError);
+                const cloudinaryMessage = cloudinaryError instanceof Error ? cloudinaryError.message : "Erreur upload";
+                return failure("Erreur lors de l'upload de l'image", 500, cloudinaryMessage);
             }
         } else {
             console.log("ℹ️ Pas d'image à uploader");

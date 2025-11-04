@@ -132,19 +132,28 @@ blog-plateforme/
 - **Masques visuels** : Effets de dégradés sur les images et cartes
 - **Formulaire interactif** : Validation en temps réel
 
-## Configuration Vercel Blob Storage
+## Configuration Cloudinary (Stockage Images)
 
-⚠️ **Important pour le déploiement sur Vercel** : Les images sont stockées sur Vercel Blob Storage (pas localement).
+⚠️ **Important pour le déploiement sur Vercel** : Les images sont stockées sur **Cloudinary** (pas localement).
 
 ### Configuration rapide :
 
-1. **Créer un Blob Store** sur [Vercel Dashboard](https://vercel.com/dashboard/stores)
-2. **Copier le token** `BLOB_READ_WRITE_TOKEN`
-3. **Ajouter la variable d'environnement** dans votre projet Vercel
+1. **Credentials Cloudinary** : Cloud Name, API Key, API Secret
+2. **Ajouter 3 variables d'environnement** dans Vercel :
+   - `CLOUDINARY_CLOUD_NAME`
+   - `CLOUDINARY_API_KEY`
+   - `CLOUDINARY_API_SECRET`
+3. **Redéployer** l'application
 
-📖 **Documentation complète** : Voir [VERCEL_SETUP.md](./VERCEL_SETUP.md) pour les instructions détaillées
+### Avantages Cloudinary :
+- ✅ **25 GB gratuit** (vs 500 MB Vercel Blob)
+- ✅ **Optimisation automatique** des images
+- ✅ **Transformations** (redimensionnement, recadrage)
+- ✅ **CDN global** pour performance maximale
 
-📦 **Migration des images** : Voir [MIGRATION_IMAGES.md](./MIGRATION_IMAGES.md) si vous avez des images existantes à migrer
+📖 **Guide complet** : Voir [CLOUDINARY_SETUP.md](./CLOUDINARY_SETUP.md)
+
+📋 **Toutes les variables d'environnement** : Voir [VERCEL_ENV_VARIABLES.md](./VERCEL_ENV_VARIABLES.md)
 
 ## Scripts disponibles
 
