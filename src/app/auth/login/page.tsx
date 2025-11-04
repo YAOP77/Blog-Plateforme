@@ -3,7 +3,6 @@
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
-import { FcGoogle } from "react-icons/fc";
 import { IoArrowBack } from "react-icons/io5";
 
 const LoginPage = () => {
@@ -60,24 +59,12 @@ const LoginPage = () => {
 
           <div>
             <div>
-              <div>
-                <p className="text-sm text-neutral-500">Se connecter avec un compte existant</p>
-              </div>
-              <div className="text-sm mt-2 max-w-22 text-left px-1 py-1 border border-neutral-300 
-                hover:border hover:border-neutral-400 duration-500 rounded-2xl">
-                <a 
-                  className="flex items-center gap-2 cursor-pointer" 
-                  onClick={() => signIn("google")}
-                >
-                  <FcGoogle size={17} /> Google
-                </a>
-              </div>
               <input 
                 type="text"
                 name="email"
                 placeholder="Exemple@gmail.com"
                 onChange={handleInputChange}
-                className="border border-neutral-400 p-2 w-full mt-4 placeholder:text-sm"
+                className="border border-neutral-400 p-2 w-full placeholder:text-sm"
               /> 
             </div>
 
