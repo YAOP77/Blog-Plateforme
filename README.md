@@ -132,6 +132,20 @@ blog-plateforme/
 - **Masques visuels** : Effets de dégradés sur les images et cartes
 - **Formulaire interactif** : Validation en temps réel
 
+## Configuration Vercel Blob Storage
+
+⚠️ **Important pour le déploiement sur Vercel** : Les images sont stockées sur Vercel Blob Storage (pas localement).
+
+### Configuration rapide :
+
+1. **Créer un Blob Store** sur [Vercel Dashboard](https://vercel.com/dashboard/stores)
+2. **Copier le token** `BLOB_READ_WRITE_TOKEN`
+3. **Ajouter la variable d'environnement** dans votre projet Vercel
+
+📖 **Documentation complète** : Voir [VERCEL_SETUP.md](./VERCEL_SETUP.md) pour les instructions détaillées
+
+📦 **Migration des images** : Voir [MIGRATION_IMAGES.md](./MIGRATION_IMAGES.md) si vous avez des images existantes à migrer
+
 ## Scripts disponibles
 
 ```bash

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
+import { put } from "@vercel/blob";
 import prisma from "@/services/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -13,11 +13,17 @@ export async function PUT(req: Request) {
         const fd = await req.formData();
         const username = fd.get("username")?.toString();
         const avatarFile = fd.get("avatar") as File | null;
-        let avatarUrl = undefined;
+        let avatarUrl: string | undefined = undefined;
+        
+        // Upload vers Vercel Blob si un avatar est fourni
         if (avatarFile && avatarFile.size > 0) {
-            avatarUrl = `/uploads/${Date.now()}-${avatarFile.name.replace(/\s+/g, "_")}`;
-            await writeFile(`public${avatarUrl}`, Buffer.from(await avatarFile.arrayBuffer()));
+            const blob = await put(avatarFile.name, avatarFile, {
+                access: 'public',
+                addRandomSuffix: true,
+            });
+            avatarUrl = blob.url;
         }
+        
         const updateData: { username?: string; avatar?: string } = {};
         if (username) updateData.username = username;
         if (avatarUrl) updateData.avatar = avatarUrl;

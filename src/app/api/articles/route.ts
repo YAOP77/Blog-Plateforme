@@ -1,7 +1,7 @@
 import { getAllArticles, deteleArticle, updateArticle, getArticlesById } from "@/controllers/articleController";
 import { createArticle } from "@/controllers/articleController";
 import { success, failure } from "@/lib/apiResponse";
-import { writeFile } from "fs/promises";
+import { put } from "@vercel/blob";
 
 // // Lire La Liste Des Articles
 export async function GET(req: Request): Promise<Response> {
@@ -52,12 +52,16 @@ export async function POST(req: Request): Promise<Response> {
             return failure("Tous les champs son requis", 400);
         }
 
-        const imageUrl = image && image.size > 0
-        ? `/uploads/${Date.now()}-${image.name.replace(/\s+/g, "_")}`
-        : null;
+        let imageUrl: string | null = null;
 
-        if(imageUrl && image)
-            await writeFile(`public${imageUrl}`, Buffer.from(await image.arrayBuffer()))
+        // Upload vers Vercel Blob si une image est fournie
+        if (image && image.size > 0) {
+            const blob = await put(image.name, image, {
+                access: 'public',
+                addRandomSuffix: true,
+            });
+            imageUrl = blob.url;
+        }
 
         const article = await createArticle(title, imageUrl, userId, description);
         return success(article, 201);
