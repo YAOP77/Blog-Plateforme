@@ -60,15 +60,24 @@ export async function getArticlesById(id: string): Promise<Response> {
 
 // Créer Un Articles
 export async function createArticle(title: string, image: string | null, userId: string, description: string): 
-Promise<Article | Response> {
+Promise<Article> {
     try {
+        console.log("🔍 createArticle - Vérification session...");
         const session = await getServerSession(authOptions);
-        if(!session?.user?.email) return failure("Accès non autorisé", 401);
+        if(!session?.user?.email) {
+            console.error("❌ Pas de session ou email");
+            throw new Error("Accès non autorisé - pas de session");
+        }
 
+        console.log("🔍 createArticle - Recherche utilisateur:", session.user.email);
         const user = await prisma.user.findUnique({ where: { email: session.user.email } });
 
-        if(!user) return failure("Accès non autorisé", 401);
+        if(!user) {
+            console.error("❌ Utilisateur non trouvé");
+            throw new Error("Accès non autorisé - utilisateur non trouvé");
+        }
 
+        console.log("💾 createArticle - Création article en DB...");
         const create = await prisma.article.create({
             data: {
                 title,
@@ -78,11 +87,12 @@ Promise<Article | Response> {
             }
         });
 
-        console.log("Article créé :", create);
-        return success(create, 201);
+        console.log("✅ Article créé:", create.id);
+        return create;
     } catch (error: unknown) {
+        console.error("❌ Erreur dans createArticle:", error);
         const message = error instanceof Error ? error.message : "Erreur inconnu";
-        return failure("Erreur serveur", 500, message);
+        throw new Error(`Erreur création article: ${message}`);
     }
 }
 

@@ -56,16 +56,22 @@ const CreateArticlePage = () => {
 
             console.log("Donnée envoyé dans res", res);
             const result = await res.json();
+            console.log("Résultat de l'API:", result);
 
             if (!res.ok) {
-                setMessage(result.message || "Erreur lors de la publication");
+                const errorMessage = result.message || "Erreur lors de la publication";
+                const errorDetails = result.details ? ` - ${result.details}` : "";
+                console.error("❌ Erreur API:", errorMessage, errorDetails);
+                setMessage({ text: errorMessage + errorDetails, type: "error" });
             } else {
                 setMessage({ text:"Article publié avec succès !", type: "success" });
                 router.push("/articles");
             }
             
-        } catch {
-            setMessage({text: "Erreur réseau ou serveur", type: "error" });
+        } catch (error) {
+            console.error("❌ Erreur catch:", error);
+            const errorMsg = error instanceof Error ? error.message : "Erreur réseau ou serveur";
+            setMessage({text: errorMsg, type: "error" });
         } finally {
             setLoading(false);
         }

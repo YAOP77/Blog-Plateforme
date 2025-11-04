@@ -42,31 +42,59 @@ export async function PUT(req: Request): Promise<Response> {
 // // Créer Un Article
 export async function POST(req: Request): Promise<Response> {
     try {
+        console.log("📥 POST /api/articles - Début");
+        
         const fd = await req.formData();
         const title = fd.get("title")?.toString();
         const description = fd.get("description")?.toString();
         const userId = fd.get("userId")?.toString();
         const image = fd.get("image") as File | null;
 
+        console.log("📋 Données reçues:", {
+            title: title?.substring(0, 50),
+            description: description?.substring(0, 50),
+            userId,
+            hasImage: !!image,
+            imageSize: image?.size,
+            imageType: image?.type,
+        });
+
         if(!title || !description || !userId) {
-            return failure("Tous les champs son requis", 400);
+            console.log("❌ Champs manquants");
+            return failure("Tous les champs sont requis", 400);
         }
 
         let imageUrl: string | null = null;
 
         // Upload vers Vercel Blob si une image est fournie
         if (image && image.size > 0) {
-            const blob = await put(image.name, image, {
-                access: 'public',
-                addRandomSuffix: true,
-            });
-            imageUrl = blob.url;
+            console.log("📤 Upload image vers Vercel Blob...");
+            try {
+                const blob = await put(image.name, image, {
+                    access: 'public',
+                    addRandomSuffix: true,
+                });
+                imageUrl = blob.url;
+                console.log("✅ Image uploadée:", imageUrl);
+            } catch (blobError) {
+                console.error("❌ Erreur upload Blob:", blobError);
+                const blobMessage = blobError instanceof Error ? blobError.message : "Erreur upload";
+                return failure("Erreur lors de l'upload de l'image", 500, blobMessage);
+            }
+        } else {
+            console.log("ℹ️ Pas d'image à uploader");
         }
 
+        console.log("💾 Création de l'article en base de données...");
         const article = await createArticle(title, imageUrl, userId, description);
+        console.log("✅ Article créé:", article.id);
+        
         return success(article, 201);
     } catch (error: unknown) {
-        const message = error instanceof Error ? error.message : "Erreur inconnu";
+        console.error("❌ Erreur serveur:", error);
+        const message = error instanceof Error ? error.message : "Erreur inconnue";
+        const stack = error instanceof Error ? error.stack : undefined;
+        console.error("Stack:", stack);
         return failure("Erreur serveur", 500, message);
     }
 }
