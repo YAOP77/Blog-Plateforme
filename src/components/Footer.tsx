@@ -19,45 +19,35 @@ const Footer = () => {
             </p>
             <div className="flex gap-4 mt-6">
               <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="text-neutral-400 hover:text-white transition-colors duration-300"
                 aria-label="Facebook"
               >
                 <FaFacebook size={24} />
               </a>
               <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="text-neutral-400 hover:text-white transition-colors duration-300"
                 aria-label="Twitter"
               >
                 <FaTwitter size={24} />
               </a>
               <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="text-neutral-400 hover:text-white transition-colors duration-300"
                 aria-label="LinkedIn"
               >
                 <FaLinkedin size={24} />
               </a>
               <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="text-neutral-400 hover:text-white transition-colors duration-300"
                 aria-label="Instagram"
               >
                 <FaInstagram size={24} />
               </a>
               <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#"
                 className="text-neutral-400 hover:text-white transition-colors duration-300"
                 aria-label="GitHub"
               >
@@ -71,22 +61,22 @@ const Footer = () => {
             <h4 className="text-white font-semibold text-lg mb-4">Liens rapides</h4>
             <ul className="space-y-3">
               <li>
-                <Link href="/" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
+                <Link href="#" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
                   Accueil
                 </Link>
               </li>
               <li>
-                <Link href="/articles" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
+                <Link href="#" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
                   Blog
                 </Link>
               </li>
               <li>
-                <Link href="/auth/register" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
+                <Link href="#" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
                   S&apos;inscrire
                 </Link>
               </li>
               <li>
-                <Link href="/auth/login" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
+                <Link href="#" className="text-neutral-400 hover:text-white transition-colors duration-300 text-sm md:text-base">
                   Connexion
                 </Link>
               </li>
